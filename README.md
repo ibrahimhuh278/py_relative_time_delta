@@ -25,3 +25,10 @@ Supported forms (case-insensitive):
 Ordinals are `first` through `fifth`. The awkward edge: not every month has a fifth occurrence of a given weekday (February often does not). Asking for one raises `PhraseError`, a subclass of `ValueError`. The year is always taken from the input datetime — the library does not jump years.
 
 `apply_phrase(base: datetime, phrase: str) -> datetime` is the only public function. `PhraseError` is raised on any unrecognised or impossible phrase.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
